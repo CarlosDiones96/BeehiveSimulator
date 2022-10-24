@@ -9,7 +9,7 @@ namespace BehiveSimulator
 {
     class Hive
     {
-        private const int InitialfBees = 6;
+        private const int InitialBees = 6;
         private const double InitialHoney = 3.2;
         private const double MaximumHoney = 15.0;
         private const double NectarHoneyRatio = .25;
@@ -25,7 +25,7 @@ namespace BehiveSimulator
             Honey = InitialHoney;
             InitializeLocations();
             Random random = new Random();
-            for (int i = 0; i < InitialfBees; i++)
+            for (int i = 0; i < InitialBees; i++)
             {
                 AddBee(random);
             }
@@ -42,22 +42,44 @@ namespace BehiveSimulator
 
         public bool AddHoney(double nectar)
         {
-            throw new NotImplementedException("Método em desenvolvimento.");
+            double honeyToAdd = nectar * NectarHoneyRatio;
+            if (honeyToAdd + Honey > MaximumHoney)
+            {
+                return false;
+            }
+            Honey += honeyToAdd;
+            return true;
         }
 
         public bool ConsumeHoney(double amount)
         {
-            throw new NotImplementedException("Método em desenvolvimento.");
+            if (amount > Honey)
+            {
+                return false;
+            }
+            else
+            {
+                Honey -= amount;
+                return true;
+            }
         }
 
         public void AddBee(Random random)
         {
-            throw new NotImplementedException("Método em desenvolvimento.");
+            beeCount++;
+            int r1 = random.Next(100) - 50;
+            int r2 = random.Next(100) - 50;
+            Point startPoint = new Point(locations["Nursery"].X + r1,
+                                         locations["Nursery"].Y + r2);
+            Bee newBee = new Bee(beeCount, startPoint);
         }
 
         public void Go(Random random)
         {
-            throw new NotImplementedException("Método em desenvolvimento.");
+            if (Honey > MinimumHoneyForCreatingBees && random.Next(10) == 1)
+            {
+                AddBee(random);
+            }
         }
 
         public Point GetLocation(string location)

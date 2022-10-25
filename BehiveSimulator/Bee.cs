@@ -35,8 +35,11 @@ namespace BehiveSimulator
         private Flower destinationFlower;
 
         public BeeState CurrentState { get; private set; }
+
+        private Hive hive;
+        private World world;
         
-        public Bee(int id, Point location)
+        public Bee(int id, Point location, World world, Hive hive)
         {
             ID = id;
             Age = 0;
@@ -45,9 +48,11 @@ namespace BehiveSimulator
             CurrentState = BeeState.Idle;
             destinationFlower = null;
             NectarCollected = 0;
+            this.hive = hive;
+            this.world = world;
         }
 
-        public void Go(Random rand)
+        public void Go(Random random)
         {
             Age++;
             switch (CurrentState)
@@ -57,13 +62,37 @@ namespace BehiveSimulator
                     {
                         CurrentState = BeeState.Retired;
                     }
-                    else
+                    else if (world.Flowers.Count > 0 
+                        && hive.ConsumeHoney(HoneyConsumed))
                     {
-                        // TODO
+                        Flower flower = world.Flowers[random.Next(world.Flowers.Count)];
+                        if (flower.Nectar >= MinimumFlowerNectar && flower.Alive)
+                        {
+                            destinationFlower = flower;
+                            CurrentState = BeeState.FlyingToFlower;
+                        }
                     }
                     break;
                 case BeeState.FlyingToFlower:
-                    // TODO 
+                    if (!world.Flowers.Contains(destinationFlower))
+                    {
+                        CurrentState = BeeState.ReturningToHive;
+                    }
+                    else if (InsideHive)
+                    {
+                        if (MoveTowardsLocation(hive.GetLocation("Exit")))
+                        {
+                            InsideHive = false;
+                            location = hive.GetLocation("Entrance");
+                        }
+                    }
+                    else
+                    {
+                        if (MoveTowardsLocation(destinationFlower.Location))
+                        {
+                            CurrentState = BeeState.GetheringNectar;
+                        }
+                    }
                     break;
                 case BeeState.GetheringNectar:
                     double nectar = destinationFlower.HarvestNectar();
@@ -76,6 +105,24 @@ namespace BehiveSimulator
                         CurrentState = BeeState.ReturningToHive;
                     }
                     break;
+
+                case BeeState.ReturningToHive:
+                    if (!InsideHive)
+                    {
+                        if (MoveTowardsLocation(hive.GetLocation("Entrance")))
+                        {
+                            InsideHive = true;
+                            location = hive.GetLocation("Exit");
+                        }
+                    }
+                    else
+                    {
+                        if (MoveTowardsLocation(hive.GetLocation("HoneyFactory")))
+                        {
+                            CurrentState = BeeState.MakingHoney;
+                        }
+                    }
+                    break;
                 case BeeState.MakingHoney:
                     if (NectarCollected < 0.5)
                     {
@@ -84,11 +131,17 @@ namespace BehiveSimulator
                     }
                     else
                     {
-                        // TODO 
+                        if (hive.AddHoney(0.5))
+                        {
+                            NectarCollected -= 0.5;
+                        }
+                        else
+                        {
+                            NectarCollected = 0;
+                        }
                     }
                     break;
                 case BeeState.Retired:
-                    // TODO: inclomplete
                     break;
             }
         }

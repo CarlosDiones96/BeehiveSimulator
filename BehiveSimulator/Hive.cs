@@ -20,8 +20,11 @@ namespace BehiveSimulator
         private Dictionary<string, Point> locations;
         private int beeCount = 0;
 
-        public Hive()
+        private World world;
+
+        public Hive(World world)
         {
+            this.world = world;
             Honey = InitialHoney;
             InitializeLocations();
             Random random = new Random();
@@ -71,12 +74,15 @@ namespace BehiveSimulator
             int r2 = random.Next(100) - 50;
             Point startPoint = new Point(locations["Nursery"].X + r1,
                                          locations["Nursery"].Y + r2);
-            Bee newBee = new Bee(beeCount, startPoint);
+            Bee newBee = new Bee(beeCount, startPoint, world, this);
+            world.Bees.Add(newBee);
         }
 
         public void Go(Random random)
         {
-            if (Honey > MinimumHoneyForCreatingBees && random.Next(10) == 1)
+            if (world.Bees.Count < MaximumBees 
+                && Honey > MinimumHoneyForCreatingBees 
+                && random.Next(10) == 1)
             {
                 AddBee(random);
             }

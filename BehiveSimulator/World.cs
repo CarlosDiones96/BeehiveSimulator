@@ -19,10 +19,11 @@ namespace BehiveSimulator
         public List<Bee> Bees;
         public List<Flower> Flowers;
 
-        public World()
+        public World(Hive hive)
         {
             Bees = new List<Bee>();
             Flowers = new List<Flower>();
+            Hive = new Hive(this);
             Random random = new Random();
             for (int i = 0; i < 10; i++)
             {

@@ -38,6 +38,8 @@ namespace BehiveSimulator
 
         private Hive hive;
         private World world;
+
+        public BeeMessage MessageSender;
         
         public Bee(int id, Point location, World world, Hive hive)
         {
@@ -55,6 +57,7 @@ namespace BehiveSimulator
         public void Go(Random random)
         {
             Age++;
+            BeeState oldState = CurrentState;
             switch (CurrentState)
             {
                 case BeeState.Idle:
@@ -143,6 +146,11 @@ namespace BehiveSimulator
                     break;
                 case BeeState.Retired:
                     break;
+            }
+
+            if (oldState != CurrentState && MessageSender != null)
+            {
+                MessageSender(ID, CurrentState.ToString());
             }
         }
 

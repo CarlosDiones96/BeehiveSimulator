@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bee.cs" />
+    <Compile Include="BeeMessage.cs" />
     <Compile Include="Flower.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

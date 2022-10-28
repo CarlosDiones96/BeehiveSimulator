@@ -22,8 +22,11 @@ namespace BehiveSimulator
 
         private World world;
 
-        public Hive(World world)
+        public BeeMessage MessageSender;
+
+        public Hive(World world, BeeMessage MessageSender)
         {
+            this.MessageSender = MessageSender;
             this.world = world;
             Honey = InitialHoney;
             InitializeLocations();
@@ -75,6 +78,7 @@ namespace BehiveSimulator
             Point startPoint = new Point(locations["Nursery"].X + r1,
                                          locations["Nursery"].Y + r2);
             Bee newBee = new Bee(beeCount, startPoint, world, this);
+            newBee.MessageSender += this.MessageSender;
             world.Bees.Add(newBee);
         }
 

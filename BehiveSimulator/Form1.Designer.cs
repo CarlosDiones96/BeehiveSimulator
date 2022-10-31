@@ -50,6 +50,9 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.openButton = new System.Windows.Forms.ToolStripButton();
+            this.saveButton = new System.Windows.Forms.ToolStripButton();
+            this.printButton = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -57,9 +60,14 @@
             // 
             // toolStrip1
             // 
+            this.toolStrip1.CanOverflow = false;
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.startToolStripButton,
-            this.resetToolStripButton});
+            this.resetToolStripButton,
+            this.openButton,
+            this.saveButton,
+            this.printButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(450, 25);
@@ -261,6 +269,36 @@
             this.listBox1.Size = new System.Drawing.Size(450, 160);
             this.listBox1.TabIndex = 3;
             // 
+            // openButton
+            // 
+            this.openButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openButton.Image = ((System.Drawing.Image)(resources.GetObject("openButton.Image")));
+            this.openButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openButton.Name = "openButton";
+            this.openButton.Size = new System.Drawing.Size(23, 22);
+            this.openButton.Text = "&Abrir";
+            this.openButton.Click += new System.EventHandler(this.openButton_Click);
+            // 
+            // saveButton
+            // 
+            this.saveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveButton.Image = ((System.Drawing.Image)(resources.GetObject("saveButton.Image")));
+            this.saveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(23, 22);
+            this.saveButton.Text = "&Salvar";
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
+            // printButton
+            // 
+            this.printButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.printButton.Image = ((System.Drawing.Image)(resources.GetObject("printButton.Image")));
+            this.printButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.printButton.Name = "printButton";
+            this.printButton.Size = new System.Drawing.Size(23, 22);
+            this.printButton.Text = "&Imprimir";
+            this.printButton.Click += new System.EventHandler(this.printButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -309,6 +347,9 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ToolStripButton openButton;
+        private System.Windows.Forms.ToolStripButton saveButton;
+        private System.Windows.Forms.ToolStripButton printButton;
     }
 }
 

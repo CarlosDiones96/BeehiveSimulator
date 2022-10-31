@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.2017
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BehiveSimulator", "BehiveSimulator\BehiveSimulator.csproj", "{949D65EC-BEFD-4625-855B-9069A8C98188}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeehiveSimulator", "BehiveSimulator\BeehiveSimulator.csproj", "{949D65EC-BEFD-4625-855B-9069A8C98188}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeeControlOnAForm", "BeeControl on a form\BeeControlOnAForm.csproj", "{DE13C84F-E9F5-42B0-956D-4B802198D846}"
 EndProject

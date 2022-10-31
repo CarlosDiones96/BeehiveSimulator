@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace BehiveSimulator
 {
@@ -120,6 +122,96 @@ namespace BehiveSimulator
                     timer1.Enabled = false;
                 }
             }
+        }
+
+        private void openButton_Click(object sender, EventArgs e)
+        {
+            World currentWorld = world;
+            int currentFramesRun = framesRun;
+
+            bool enabled = timer1.Enabled;
+            if (enabled)
+            {
+                timer1.Stop();
+            }
+
+            OpenFileDialog openDialog = new OpenFileDialog();
+            openDialog.Filter = "Arquivos de Simulação (*.bees)|*.bees";
+            openDialog.CheckPathExists = true;
+            openDialog.CheckFileExists = true;
+            openDialog.Title = "Escolha um arquivo de simulação para carregar";
+
+            if (openDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    BinaryFormatter bf = new BinaryFormatter();
+                    using (Stream input = File.OpenRead(openDialog.FileName))
+                    {
+                        world = (World)bf.Deserialize(input);
+                        framesRun = (int)bf.Deserialize(input);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Não foi possível carregar o arquivo\r\n" + ex.Message,
+                        "Erro no Simulador de Colméia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    world = currentWorld;
+                    framesRun = currentFramesRun;
+                }
+            }
+
+            world.Hive.MessageSender = new BeeMessage(SendMessage);
+            foreach (Bee bee in world.Bees)
+            {
+                bee.MessageSender = new BeeMessage(SendMessage);
+            }
+
+            if (enabled)
+            {
+                timer1.Start();
+            }
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            bool enabled = timer1.Enabled;
+            if (enabled)
+            {
+                timer1.Stop();
+            }
+
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.Filter = "Arquivo de simulação (*.bees)|*.bees";
+            saveDialog.CheckPathExists = true;
+            saveDialog.Title = "Escolha um arquivo para salvar a simulação atual";
+            if ( saveDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    BinaryFormatter bf = new BinaryFormatter();
+                    using (Stream output = File.OpenWrite(saveDialog.FileName))
+                    {
+                        bf.Serialize(output, world);
+                        bf.Serialize(output, framesRun);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Não foi possível salvar a simulação\r\n" + ex.Message, 
+                        "Erro no Simulador de Colméia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+            if (enabled)
+            {
+                timer1.Start();
+            }
+        }
+
+        private void printButton_Click(object sender, EventArgs e)
+        {
+            // TODO 
         }
     }
 }

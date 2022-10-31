@@ -49,7 +49,7 @@ namespace BehiveSimulator
                 nectar += flower.Nectar;
             }
             nectarInFlowersLabel.Text = String.Format("{0:f3}", nectar);
-            framesRunLabel.Text = framesRunLabel.ToString();
+            framesRunLabel.Text = framesRun.ToString(); // framesRunLabel
             double milliSeconds = frameDuration.TotalMilliseconds;
             if (milliSeconds != 0.0)
             {
@@ -88,6 +88,38 @@ namespace BehiveSimulator
         private void SendMessage(int ID, string Message)
         {
             statusStrip1.Items[0].Text = "Abelha #" + ID + ": " + Message;
+
+            var beeGroups = from bee in world.Bees
+                            group bee by bee.CurrentState into beeGroup
+                            orderby beeGroup.Key
+                            select beeGroup;
+
+            listBox1.Items.Clear();
+
+            foreach (var group in beeGroups)
+            {
+                string s;
+                if (group.Count() == 1)
+                {
+                    s = "";
+                }
+                else
+                {
+                    s = "s";
+                }
+
+                listBox1.Items.Add(group.Key.ToString() + ": " + group.Count() + " abelha" + s);
+
+                if (group.Key == BeeState.Idle
+                    && group.Count() == world.Bees.Count()
+                    && framesRun > 0)
+                {
+                    listBox1.Items.Add("Simulação encerrada: todas as abelhas estão ociosas");
+                    toolStrip1.Items[0].Text = "Simulação encerrada";
+                    statusStrip1.Items[0].Text = "Simulação encerrada";
+                    timer1.Enabled = false;
+                }
+            }
         }
     }
 }

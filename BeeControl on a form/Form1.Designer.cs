@@ -28,38 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.beeControl1 = new BeeControl_on_a_form.BeeControl();
-            ((System.ComponentModel.ISupportInitialize)(this.beeControl1)).BeginInit();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // beeControl1
+            // button1
             // 
-            this.beeControl1.BackColor = System.Drawing.Color.Transparent;
-            this.beeControl1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("beeControl1.BackgroundImage")));
-            this.beeControl1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.beeControl1.Location = new System.Drawing.Point(214, 56);
-            this.beeControl1.Name = "beeControl1";
-            this.beeControl1.Size = new System.Drawing.Size(120, 104);
-            this.beeControl1.TabIndex = 0;
-            this.beeControl1.TabStop = false;
+            this.button1.Location = new System.Drawing.Point(174, 204);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Add";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.beeControl1);
+            this.ClientSize = new System.Drawing.Size(487, 337);
+            this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.beeControl1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private BeeControl beeControl1;
+        private System.Windows.Forms.Button button1;
     }
 }
 

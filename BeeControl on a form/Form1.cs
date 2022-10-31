@@ -16,5 +16,24 @@ namespace BeeControl_on_a_form
         {
             InitializeComponent();
         }
+
+        BeeControl control = null;
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (control == null)
+            {
+                control = new BeeControl() { Location = new Point(100, 100) };
+                Controls.Add(control);
+            }
+            else
+            {
+                using (control)
+                {
+                    Controls.Remove(control);
+                }
+                control = null;
+            }
+        }
     }
 }

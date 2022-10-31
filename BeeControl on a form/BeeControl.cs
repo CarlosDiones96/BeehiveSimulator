@@ -48,5 +48,14 @@ namespace BeeControl_on_a_form
                     break;
             }
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (disposing)
+            {
+                animationTimer.Dispose();
+            }
+        }
     }
 }

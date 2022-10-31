@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace BehiveSimulator
 {
+    [Serializable]
     class Flower
     {
         private const int LifeSpanMin = 15000;

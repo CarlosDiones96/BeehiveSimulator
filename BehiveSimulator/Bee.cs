@@ -17,6 +17,7 @@ namespace BehiveSimulator
         Retired
     }
 
+    [Serializable]
     class Bee
     {
         private const double HoneyConsumed = 0.5;
@@ -39,6 +40,7 @@ namespace BehiveSimulator
         private Hive hive;
         private World world;
 
+        [NonSerialized]
         public BeeMessage MessageSender;
         
         public Bee(int id, Point location, World world, Hive hive)

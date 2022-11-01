@@ -42,10 +42,10 @@ namespace BehiveSimulator
         public void InitializeLocations()
         {
             locations = new Dictionary<string, Point>();
-            locations.Add("Entrance", new Point(600, 100));
-            locations.Add("Nursery", new Point(95, 174));
-            locations.Add("HoneyFactory", new Point(157, 98));
-            locations.Add("Exit", new Point(194, 213));
+            locations.Add("Entrance", new Point(542, 68));
+            locations.Add("Nursery", new Point(100, 203));
+            locations.Add("HoneyFactory", new Point(203, 97));
+            locations.Add("Exit", new Point(225, 254));
         }
 
         public bool AddHoney(double nectar)

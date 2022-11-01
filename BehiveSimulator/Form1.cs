@@ -19,6 +19,10 @@ namespace BehiveSimulator
         private DateTime start = DateTime.Now;
         private DateTime end;
         private int framesRun = 0;
+
+        HiveForm hiveForm = new HiveForm();
+        FieldForm fieldForm = new FieldForm();
+
         public Form1()
         {
             InitializeComponent();
@@ -28,6 +32,10 @@ namespace BehiveSimulator
             timer1.Tick += new EventHandler(RunFrame);
             timer1.Enabled = false;
             UpdateStats(new TimeSpan());
+
+            hiveForm.Show(this);
+            fieldForm.Show(this);
+            
         }
 
         private void RunFrame(object sender, EventArgs e)

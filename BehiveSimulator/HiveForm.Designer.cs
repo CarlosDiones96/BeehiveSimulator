@@ -39,6 +39,7 @@
             this.ClientSize = new System.Drawing.Size(300, 311);
             this.DoubleBuffered = true;
             this.Name = "HiveForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Colméia";
             this.Load += new System.EventHandler(this.HiveForm_Load);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HiveForm_MouseClick);

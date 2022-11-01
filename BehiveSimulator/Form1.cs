@@ -20,32 +20,48 @@ namespace BehiveSimulator
         private DateTime end;
         private int framesRun = 0;
 
-        HiveForm hiveForm = new HiveForm();
-        FieldForm fieldForm = new FieldForm();
+        private HiveForm hiveForm = new HiveForm();
+        private FieldForm fieldForm = new FieldForm();
+        private Renderer renderer;
 
         public Form1()
         {
             InitializeComponent();
-            world = new World(new BeeMessage(SendMessage));
+
+            MoveChildForms();
+            hiveForm.Show(this);
+            fieldForm.Show(this);
+            ResetSimulator();
 
             timer1.Interval = 50;
             timer1.Tick += new EventHandler(RunFrame);
             timer1.Enabled = false;
             UpdateStats(new TimeSpan());
-
-            hiveForm.Show(this);
-            fieldForm.Show(this);
-            
         }
 
         private void RunFrame(object sender, EventArgs e)
         {
             framesRun++;
             world.Go(random);
+            renderer.Render();
             end = DateTime.Now;
             TimeSpan frameDuration = end - start;
             start = end;
             UpdateStats(frameDuration);
+        }
+
+        private void MoveChildForms()
+        {
+            hiveForm.Location = new Point(Location.X + Width + 10, Location.Y);
+            fieldForm.Location = new Point(Location.X, Location.Y + Math.Max(Height, hiveForm.Height) + 10);
+        }
+
+        private void ResetSimulator()
+        {
+            framesRun = 0;
+            // world = new World(new Bee.BeeMessage(SendMessage));
+            world = new World(new BeeMessage(SendMessage));
+            renderer = new Renderer(world, hiveForm, fieldForm);
         }
 
         private void UpdateStats(TimeSpan frameDuration)
@@ -87,8 +103,8 @@ namespace BehiveSimulator
 
         private void resetToolStripButton_Click(object sender, EventArgs e)
         {
-            framesRun = 0;
-            world = new World(new BeeMessage(SendMessage));
+            renderer.Reset();
+            ResetSimulator();
             if (!timer1.Enabled)
             {
                 toolStrip1.Items[0].Text = "Iniciar simulação";
@@ -179,6 +195,9 @@ namespace BehiveSimulator
             {
                 timer1.Start();
             }
+
+            renderer.Reset();
+            renderer = new Renderer(world, hiveForm, fieldForm);
         }
 
         private void saveButton_Click(object sender, EventArgs e)
@@ -220,6 +239,11 @@ namespace BehiveSimulator
         private void printButton_Click(object sender, EventArgs e)
         {
             // TODO 
+        }
+
+        private void Form1_Move(object sender, EventArgs e)
+        {
+            MoveChildForms();
         }
     }
 }

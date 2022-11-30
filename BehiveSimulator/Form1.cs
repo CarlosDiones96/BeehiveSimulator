@@ -43,11 +43,12 @@ namespace BehiveSimulator
         {
             framesRun++;
             world.Go(random);
-            renderer.Render();
             end = DateTime.Now;
             TimeSpan frameDuration = end - start;
             start = end;
             UpdateStats(frameDuration);
+            hiveForm.Invalidate();
+            fieldForm.Invalidate();
         }
 
         private void MoveChildForms()

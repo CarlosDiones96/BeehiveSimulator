@@ -47,12 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bee.cs" />
-    <Compile Include="BeeControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BeeControl.Designer.cs">
-      <DependentUpon>BeeControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="BeeMessage.cs" />
     <Compile Include="FieldForm.cs">
       <SubType>Form</SubType>
@@ -78,9 +72,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="World.cs" />
-    <EmbeddedResource Include="BeeControl.resx">
-      <DependentUpon>BeeControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FieldForm.resx">
       <DependentUpon>FieldForm.cs</DependentUpon>
     </EmbeddedResource>

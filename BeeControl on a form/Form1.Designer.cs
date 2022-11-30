@@ -68,6 +68,7 @@
             this.ClientSize = new System.Drawing.Size(487, 423);
             this.Controls.Add(this.trackBar2);
             this.Controls.Add(this.trackBar1);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

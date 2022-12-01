@@ -12,6 +12,8 @@ namespace BehiveSimulator
 {
     public partial class HiveForm : Form
     {
+        public Renderer Renderer { get; set; }
+
         public HiveForm()
         {
             InitializeComponent();

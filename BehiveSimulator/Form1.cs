@@ -104,7 +104,7 @@ namespace BehiveSimulator
 
         private void resetToolStripButton_Click(object sender, EventArgs e)
         {
-            renderer.Reset();
+            //renderer.Reset();
             ResetSimulator();
             if (!timer1.Enabled)
             {
@@ -197,7 +197,7 @@ namespace BehiveSimulator
                 timer1.Start();
             }
 
-            renderer.Reset();
+           // renderer.Reset();
             renderer = new Renderer(world, hiveForm, fieldForm);
         }
 
@@ -245,6 +245,11 @@ namespace BehiveSimulator
         private void Form1_Move(object sender, EventArgs e)
         {
             MoveChildForms();
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            renderer.AnimateBees();
         }
     }
 }

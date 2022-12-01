@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace BehiveSimulator
 {
     [Serializable]
-    class Hive
+    public class Hive
     {
         private const int InitialBees = 6;
         private const double InitialHoney = 3.2;
@@ -22,6 +22,7 @@ namespace BehiveSimulator
         private int beeCount = 0;
 
         private World world;
+
 
         [NonSerialized]
         public BeeMessage MessageSender;

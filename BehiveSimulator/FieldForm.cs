@@ -12,6 +12,8 @@ namespace BehiveSimulator
 {
     public partial class FieldForm : Form
     {
+        public Renderer Renderer { get; set; }
+
         public FieldForm()
         {
             InitializeComponent();

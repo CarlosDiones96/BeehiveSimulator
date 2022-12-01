@@ -50,6 +50,7 @@
             this.ClientSize = new System.Drawing.Size(609, 324);
             this.ControlBox = false;
             this.Controls.Add(this.pictureBox1);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FieldForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;

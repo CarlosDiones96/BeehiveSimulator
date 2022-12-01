@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BehiveSimulator
 {
-    enum BeeState
+    public enum BeeState
     {
         Idle,
         FlyingToFlower,
@@ -18,7 +18,7 @@ namespace BehiveSimulator
     }
 
     [Serializable]
-    class Bee
+    public class Bee
     {
         private const double HoneyConsumed = 0.5;
         private const int MoveRate = 3;

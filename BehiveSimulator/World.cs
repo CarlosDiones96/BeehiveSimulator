@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace BehiveSimulator
 {
     [Serializable]
-    class World
+    public class World
     {
         private const double NectarHarvestedPerNewFlower = 50.0;
         private const int FieldMinX = 15;

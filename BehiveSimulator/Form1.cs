@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Drawing.Printing;
 
 namespace BehiveSimulator
 {
@@ -239,7 +240,44 @@ namespace BehiveSimulator
 
         private void printButton_Click(object sender, EventArgs e)
         {
-            // TODO 
+            bool stoppedTimer = false;
+            if (timer1.Enabled)
+            {
+                timer1.Stop();
+                stoppedTimer = true;
+            }
+
+            PrintPreviewDialog preview = new PrintPreviewDialog();
+            PrintDocument document = new PrintDocument();
+            preview.Document = document;
+            document.PrintPage += new PrintPageEventHandler(document_PrintPage);
+            preview.ShowDialog(this);
+            if (stoppedTimer)
+            {
+                timer1.Start();
+            }
+        }
+
+        private void document_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            Graphics g = e.Graphics;
+
+            Size stringSize;
+            using (Font arial24bold = new Font("Arial", 24, FontStyle.Bold))
+            {
+                stringSize = Size.Ceiling(g.MeasureString("Simulador de Abelhas", arial24bold));
+                g.FillEllipse(Brushes.Gray, new Rectangle(e.MarginBounds.X + 2, e.MarginBounds.Y + 2, stringSize.Width + 30, stringSize.Height + 30));
+                g.FillEllipse(Brushes.Black, new Rectangle(e.MarginBounds.X, e.MarginBounds.Y, stringSize.Width + 30, stringSize.Height + 30));
+
+                g.DrawString("Simulador de Abelhas", arial24bold, Brushes.Gray, e.MarginBounds.X + 17, e.MarginBounds.Y + 17);
+                g.DrawString("Simulador de Abelhas", arial24bold, Brushes.White, e.MarginBounds.X + 15, e.MarginBounds.Y + 15);
+            }
+
+            //
+            //
+            // TODO
+            //
+            //
         }
 
         private void Form1_Move(object sender, EventArgs e)
@@ -251,5 +289,6 @@ namespace BehiveSimulator
         {
             renderer.AnimateBees();
         }
+
     }
 }

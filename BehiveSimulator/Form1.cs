@@ -273,11 +273,55 @@ namespace BehiveSimulator
                 g.DrawString("Simulador de Abelhas", arial24bold, Brushes.White, e.MarginBounds.X + 15, e.MarginBounds.Y + 15);
             }
 
-            //
-            //
-            // TODO
-            //
-            //
+            int tableX = e.MarginBounds.X + (int)stringSize.Width + 50;
+            int tableWidth = e.MarginBounds.X + e.MarginBounds.Width - tableX - 20;
+            int firstColumnX = tableX + 2;
+            int secondColumnX = tableX + (tableWidth / 2) + 5;
+            int tableY = e.MarginBounds.Y;
+
+            tableY = PrintTableRow(g, tableX, tableWidth, firstColumnX, secondColumnX, tableY, "Abelhas", beesLabel.Text);
+            tableY = PrintTableRow(g, tableX, tableWidth, firstColumnX, secondColumnX, tableY, "Flores", flowersLabel.Text);
+            tableY = PrintTableRow(g, tableX, tableWidth, firstColumnX, secondColumnX, tableY, "Mel na colméia", honeyInHiveLabel.Text);
+            tableY = PrintTableRow(g, tableX, tableWidth, firstColumnX, secondColumnX, tableY, "Néctar nas flores", nectarInFlowersLabel.Text);
+            tableY = PrintTableRow(g, tableX, tableWidth, firstColumnX, secondColumnX, tableY, "Frames rodados", framesRunLabel.Text);
+            tableY = PrintTableRow(g, tableX, tableWidth, firstColumnX, secondColumnX, tableY, "Taxa de frames", frameRate.Text);
+
+            g.DrawRectangle(Pens.Black, tableX, e.MarginBounds.Y, tableWidth, tableY - e.MarginBounds.Y);
+            g.DrawLine(Pens.Black, secondColumnX, e.MarginBounds.Y, secondColumnX, tableY);
+
+            using (Pen blackPen = new Pen(Brushes.Black, 2))
+            using (Bitmap hiveBitmap = new Bitmap(hiveForm.ClientSize.Width, hiveForm.ClientSize.Height))
+            using (Bitmap fieldBitmap = new Bitmap(fieldForm.ClientSize.Width, fieldForm.ClientSize.Height))
+            {
+                using (Graphics hiveGraphics = Graphics.FromImage(hiveBitmap))
+                {
+                    renderer.PaintHive(hiveGraphics);
+                }
+
+                int hiveWidth = e.MarginBounds.Width / 2;
+                float ratio = (float)hiveBitmap.Height / (float)hiveBitmap.Width;
+                int hiveHeight = (int)(hiveWidth * ratio);
+                int hiveX = e.MarginBounds.X + (e.MarginBounds.Width - hiveWidth) / 2;
+                int hiveY = e.MarginBounds.Height / 3;
+
+                g.DrawImage(hiveBitmap, hiveX, hiveY, hiveWidth, hiveHeight);
+                g.DrawRectangle(blackPen, hiveX, hiveY, hiveWidth, hiveHeight);
+
+                using (Graphics fieldGraphics = Graphics.FromImage(fieldBitmap))
+                {
+                    renderer.PaintField(fieldGraphics);
+                }
+
+                int fieldWidth = e.MarginBounds.Width;
+                ratio = (float)fieldBitmap.Height / (float)fieldBitmap.Width;
+                int fieldHeight = (int)(fieldWidth * ratio);
+                int fieldX = e.MarginBounds.X;
+                int fieldY = e.MarginBounds.Y + e.MarginBounds.Height - fieldHeight;
+
+                g.DrawImage(fieldBitmap, fieldX, fieldY, fieldWidth, fieldHeight);
+                g.DrawRectangle(blackPen, fieldX, fieldY, fieldWidth, fieldHeight);
+            }
+
         }
 
         private void Form1_Move(object sender, EventArgs e)
@@ -290,5 +334,18 @@ namespace BehiveSimulator
             renderer.AnimateBees();
         }
 
+        private int PrintTableRow(Graphics printGraphics, int tableX, int tableWidth, int firstColumnX, int secondColumnX, int tableY, string firstColumn, string secondColumn)
+        {
+            Font arial12 = new Font("Arial", 12);
+            Size stringSize = Size.Ceiling(printGraphics.MeasureString(firstColumn, arial12));
+            tableY += 2;
+            printGraphics.DrawString(firstColumn, arial12, Brushes.Black, firstColumnX, tableY);
+            printGraphics.DrawString(secondColumn, arial12, Brushes.Black, secondColumnX, tableY);
+            tableY += (int)stringSize.Height + 2;
+            printGraphics.DrawLine(Pens.Black, tableX, tableY, tableX + tableWidth, tableY);
+            arial12.Dispose();
+
+            return tableY;
+        }
     }
 }

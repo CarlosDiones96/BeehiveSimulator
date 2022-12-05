@@ -55,6 +55,7 @@
             this.Name = "FieldForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Campo";
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.FieldForm_Paint);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FieldForm_MouseClick);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

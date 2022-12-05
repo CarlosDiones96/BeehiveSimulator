@@ -28,5 +28,10 @@ namespace BehiveSimulator
         {
             MessageBox.Show(e.Location.ToString());
         }
+
+        private void FieldForm_Paint(object sender, PaintEventArgs e)
+        {
+            Renderer.PaintField(e.Graphics);
+        }
     }
 }

@@ -61,9 +61,8 @@ namespace BehiveSimulator
         private void ResetSimulator()
         {
             framesRun = 0;
-            // world = new World(new Bee.BeeMessage(SendMessage));
             world = new World(new BeeMessage(SendMessage));
-            renderer = new Renderer(world, hiveForm, fieldForm);
+            CreateRenderer();
         }
 
         private void UpdateStats(TimeSpan frameDuration)
@@ -72,13 +71,16 @@ namespace BehiveSimulator
             flowersLabel.Text = world.Flowers.Count.ToString();
             honeyInHiveLabel.Text = String.Format("{0:f3}", world.Hive.Honey);
             double nectar = 0;
+
             foreach (Flower flower in world.Flowers)
             {
                 nectar += flower.Nectar;
             }
+
             nectarInFlowersLabel.Text = String.Format("{0:f3}", nectar);
-            framesRunLabel.Text = framesRun.ToString(); // framesRunLabel
+            framesRunLabel.Text = framesRun.ToString(); 
             double milliSeconds = frameDuration.TotalMilliseconds;
+
             if (milliSeconds != 0.0)
             {
                 frameRate.Text = String.Format("{0:f0} ({1:f1}ms)", 1000 / milliSeconds, milliSeconds);
@@ -105,7 +107,6 @@ namespace BehiveSimulator
 
         private void resetToolStripButton_Click(object sender, EventArgs e)
         {
-            //renderer.Reset();
             ResetSimulator();
             if (!timer1.Enabled)
             {
@@ -174,8 +175,8 @@ namespace BehiveSimulator
                     BinaryFormatter bf = new BinaryFormatter();
                     using (Stream input = File.OpenRead(openDialog.FileName))
                     {
-                        world = (World)bf.Deserialize(input);
-                        framesRun = (int)bf.Deserialize(input);
+                        world = (World) bf.Deserialize(input);
+                        framesRun = (int) bf.Deserialize(input);
                     }
                 }
                 catch (Exception ex)
@@ -198,8 +199,8 @@ namespace BehiveSimulator
                 timer1.Start();
             }
 
-           // renderer.Reset();
-            renderer = new Renderer(world, hiveForm, fieldForm);
+            CreateRenderer();
+           
         }
 
         private void saveButton_Click(object sender, EventArgs e)
@@ -208,6 +209,13 @@ namespace BehiveSimulator
             if (enabled)
             {
                 timer1.Stop();
+            }
+
+            world.Hive.MessageSender = null;
+
+            foreach (Bee bee in world.Bees)
+            {
+                bee.MessageSender = null;
             }
 
             SaveFileDialog saveDialog = new SaveFileDialog();
@@ -230,6 +238,13 @@ namespace BehiveSimulator
                     MessageBox.Show("Não foi possível salvar a simulação\r\n" + ex.Message, 
                         "Erro no Simulador de Colméia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+
+            world.Hive.MessageSender = new BeeMessage(SendMessage);
+
+            foreach (Bee bee in world.Bees)
+            {
+                bee.MessageSender = new BeeMessage(SendMessage);
             }
 
             if (enabled)
@@ -265,12 +280,12 @@ namespace BehiveSimulator
             Size stringSize;
             using (Font arial24bold = new Font("Arial", 24, FontStyle.Bold))
             {
-                stringSize = Size.Ceiling(g.MeasureString("Simulador de Abelhas", arial24bold));
+                stringSize = Size.Ceiling(g.MeasureString("Simulador de Colméia", arial24bold));
                 g.FillEllipse(Brushes.Gray, new Rectangle(e.MarginBounds.X + 2, e.MarginBounds.Y + 2, stringSize.Width + 30, stringSize.Height + 30));
                 g.FillEllipse(Brushes.Black, new Rectangle(e.MarginBounds.X, e.MarginBounds.Y, stringSize.Width + 30, stringSize.Height + 30));
 
-                g.DrawString("Simulador de Abelhas", arial24bold, Brushes.Gray, e.MarginBounds.X + 17, e.MarginBounds.Y + 17);
-                g.DrawString("Simulador de Abelhas", arial24bold, Brushes.White, e.MarginBounds.X + 15, e.MarginBounds.Y + 15);
+                g.DrawString("Simulador de Colméia", arial24bold, Brushes.Gray, e.MarginBounds.X + 17, e.MarginBounds.Y + 17);
+                g.DrawString("Simulador de Colméia", arial24bold, Brushes.White, e.MarginBounds.X + 15, e.MarginBounds.Y + 15);
             }
 
             int tableX = e.MarginBounds.X + (int)stringSize.Width + 50;
@@ -281,7 +296,7 @@ namespace BehiveSimulator
 
             tableY = PrintTableRow(g, tableX, tableWidth, firstColumnX, secondColumnX, tableY, "Abelhas", beesLabel.Text);
             tableY = PrintTableRow(g, tableX, tableWidth, firstColumnX, secondColumnX, tableY, "Flores", flowersLabel.Text);
-            tableY = PrintTableRow(g, tableX, tableWidth, firstColumnX, secondColumnX, tableY, "Mel na colméia", honeyInHiveLabel.Text);
+            tableY = PrintTableRow(g, tableX, tableWidth, firstColumnX, secondColumnX, tableY, "Mel total", honeyInHiveLabel.Text);
             tableY = PrintTableRow(g, tableX, tableWidth, firstColumnX, secondColumnX, tableY, "Néctar nas flores", nectarInFlowersLabel.Text);
             tableY = PrintTableRow(g, tableX, tableWidth, firstColumnX, secondColumnX, tableY, "Frames rodados", framesRunLabel.Text);
             tableY = PrintTableRow(g, tableX, tableWidth, firstColumnX, secondColumnX, tableY, "Taxa de frames", frameRate.Text);
@@ -332,6 +347,13 @@ namespace BehiveSimulator
         private void timer2_Tick(object sender, EventArgs e)
         {
             renderer.AnimateBees();
+        }
+
+        private void CreateRenderer()
+        {
+            renderer = new Renderer(world, hiveForm, fieldForm);
+            hiveForm.Renderer = renderer;
+            fieldForm.Renderer = renderer;
         }
 
         private int PrintTableRow(Graphics printGraphics, int tableX, int tableWidth, int firstColumnX, int secondColumnX, int tableY, string firstColumn, string secondColumn)

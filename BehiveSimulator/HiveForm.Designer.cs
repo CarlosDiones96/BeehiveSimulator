@@ -41,6 +41,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Colméia";
             this.Load += new System.EventHandler(this.HiveForm_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.HiveForm_Paint);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HiveForm_MouseClick);
             this.ResumeLayout(false);
 

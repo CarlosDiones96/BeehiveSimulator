@@ -27,7 +27,13 @@ namespace BehiveSimulator
 
         private void HiveForm_MouseClick(object sender, MouseEventArgs e)
         {
+            // Just to know the position of the bees
             MessageBox.Show(e.Location.ToString());
+        }
+
+        private void HiveForm_Paint(object sender, PaintEventArgs e)
+        {
+            Renderer.PaintHive(e.Graphics);
         }
     }
 }

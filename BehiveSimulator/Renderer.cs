@@ -30,15 +30,13 @@ namespace BehiveSimulator
             this.world = Theworld;
             this.hiveForm = hiveForm;
             this.fieldForm = fieldForm;
-            fieldForm.Renderer = this;
-            hiveForm.Renderer = this;
             InitializeImages();
         }
 
 
         private void InitializeImages()
         {
-            HiveOutside = ResizeImage(Properties.Resources.Hive__outside_, 85, 100);
+            HiveOutside = ResizeImage(Properties.Resources.Hive__outside_, 85, 100); 
             Flower = ResizeImage(Properties.Resources.Flower, 75, 75);
             HiveInside = ResizeImage(Properties.Resources.Hive__inside_, hiveForm.ClientRectangle.Width, hiveForm.ClientRectangle.Height);
 
@@ -49,10 +47,10 @@ namespace BehiveSimulator
             BeeAnimationLarge[3] = ResizeImage(Properties.Resources.Bee_animation_4, 40, 40);
 
             BeeAnimationSmall = new Bitmap[4];
-            BeeAnimationSmall[0] = ResizeImage(Properties.Resources.Bee_animation_1, 20, 200);
-            BeeAnimationSmall[1] = ResizeImage(Properties.Resources.Bee_animation_2, 20, 200);
-            BeeAnimationSmall[2] = ResizeImage(Properties.Resources.Bee_animation_3, 20, 200);
-            BeeAnimationSmall[3] = ResizeImage(Properties.Resources.Bee_animation_4, 20, 200);
+            BeeAnimationSmall[0] = ResizeImage(Properties.Resources.Bee_animation_1, 20, 20);
+            BeeAnimationSmall[1] = ResizeImage(Properties.Resources.Bee_animation_2, 20, 20);
+            BeeAnimationSmall[2] = ResizeImage(Properties.Resources.Bee_animation_3, 20, 20);
+            BeeAnimationSmall[3] = ResizeImage(Properties.Resources.Bee_animation_4, 20, 20);
         }
     
         public static Bitmap ResizeImage(Image imageToResize, int width, int height)
@@ -78,7 +76,7 @@ namespace BehiveSimulator
             }
         }
 
-        // PaintField()
+        
         public void PaintField(Graphics g)
         {
             using (Pen brownPen = new Pen(Color.Brown, 6.0F))
@@ -86,8 +84,8 @@ namespace BehiveSimulator
                 g.FillRectangle(Brushes.SkyBlue, 0, 0, fieldForm.ClientSize.Width, fieldForm.ClientSize.Height / 2);
                 g.FillEllipse(Brushes.Yellow, new RectangleF(50, 15, 70, 70));
                 g.FillRectangle(Brushes.Green, 0, fieldForm.ClientSize.Height / 2, fieldForm.ClientSize.Width, fieldForm.ClientSize.Height / 2);
-                g.DrawLine(brownPen, new Point(593, 0), new Point(593, 30));
-                g.DrawImageUnscaled(HiveOutside, 550, 20);
+                g.DrawLine(brownPen, new Point(643, 0), new Point(643, 30));
+                g.DrawImageUnscaled(HiveOutside, 600, 20);
                 
                 foreach(Flower flower in world.Flowers)
                 {
@@ -118,6 +116,7 @@ namespace BehiveSimulator
                 case 1: cell = 1; break;
                 case 2: cell = 2; break;
                 case 3: cell = 3; break;
+                case 4: cell = 2; break;
                 case 5: cell = 1; break;
                 default: cell = 0; break;
             }
